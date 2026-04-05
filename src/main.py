@@ -1,4 +1,5 @@
 import random
+import os
 
 def hvlcs(A, B, values):
     m = len(A)
