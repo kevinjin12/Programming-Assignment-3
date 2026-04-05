@@ -30,18 +30,50 @@ def hvlcs(A, B, values):
 
     return dp[m][n], subsequence
 
-def main():
-    A = "aacb"
-    B = "caab"
-    values = {
-        'a': 2,
-        'b': 4,
-        'c': 5,
-    }
+def read_input(file_path):
+    with open(file_path, "r") as f:
+        num_of_letters = int(f.readline())
+        values = {}
 
-    res, subsequence = hvlcs(A, B, values)
-    print(res)
-    print(subsequence)
+        for _ in range(num_of_letters):
+            letter, value = f.readline().split()
+            values[letter] = int(value)
+        
+        A = f.readline()
+        B = f.readline()
+    
+    return A, B, values
+
+def write_output(file_path, res, subsequence):
+    with open(file_path, "w") as f:
+        f.write(str(res) + "\n")
+        f.write(subsequence)
+
+def main():
+    user_choice = input("Would you like to run custom or standard tests? [custom/standard] ")
+
+    if user_choice.lower() == "custom":
+        base = "../data/"
+        input_path = base + "input.in"
+        output_path = base + "output.out"
+
+        A, B, values = read_input(input_path)
+        res, subsequence = hvlcs(A, B, values)
+
+        print(str(res) + "\n" + subsequence)
+        write_output(output_path, res, subsequence)
+
+    elif user_choice.lower() == "standard":
+        base = "../tests/"
+        num_of_test_files = 1
+
+        for num in range(num_of_test_files):
+            input_path = f"{base}test{num + 1}.in"
+            output_path = f"{base}test{num + 1}.out"
+
+            A, B, values = read_input(input_path)
+            res, subsequence = hvlcs(A, B, values)
+            write_output(output_path, res, subsequence)
 
 if __name__ == "__main__":
     main()
