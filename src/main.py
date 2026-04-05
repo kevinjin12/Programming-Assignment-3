@@ -1,3 +1,5 @@
+import random
+
 def hvlcs(A, B, values):
     m = len(A)
     n = len(B)
@@ -39,8 +41,8 @@ def read_input(file_path):
             letter, value = f.readline().split()
             values[letter] = int(value)
         
-        A = f.readline()
-        B = f.readline()
+        A = f.readline().strip()
+        B = f.readline().strip()
     
     return A, B, values
 
@@ -48,6 +50,45 @@ def write_output(file_path, res, subsequence):
     with open(file_path, "w") as f:
         f.write(str(res) + "\n")
         f.write(subsequence)
+
+def create_tests(alphabet_size=10):
+    random.seed(10)
+    alphabet = list("abcdefghijklmnopqrstuvwxyz")
+
+    for i in range(10):
+        chars = alphabet[:alphabet_size]
+        values = {c: random.randint(1, 10) for c in chars}
+
+        length = (i + 1) * 25
+        A = ''.join(random.choices(chars, k=length))
+        B = ''.join(random.choices(chars, k=length))
+
+        lines = [str(alphabet_size)]
+        for c, v in values.items():
+            lines.append(f"{c} {v}")
+        lines.append(A)
+        lines.append(B)
+        content = '\n'.join(lines)
+
+        filename = f"../tests/test{i + 1}.in"
+        with open(filename, "w") as f:
+            f.write(content)
+
+def run_tests():
+    base_name = "../tests/"
+    test_files = [f"test{i+1}" for i in range(10)]
+
+    for file in test_files:
+        input_file = base_name + file + ".in"
+        output_file = base_name + file + ".out"
+
+        A, B, values = read_input(input_file)
+        max_val, subseq = hvlcs(A, B, values)
+
+        with open(output_file, "w") as f:
+            f.write(f"{max_val}\n")
+            f.write(f"{subseq}\n")
+
 
 def main():
     user_choice = input("Would you like to run custom or standard tests? [custom/standard] ")
@@ -64,16 +105,9 @@ def main():
         write_output(output_path, res, subsequence)
 
     elif user_choice.lower() == "standard":
-        base = "../tests/"
-        num_of_test_files = 1
-
-        for num in range(num_of_test_files):
-            input_path = f"{base}test{num + 1}.in"
-            output_path = f"{base}test{num + 1}.out"
-
-            A, B, values = read_input(input_path)
-            res, subsequence = hvlcs(A, B, values)
-            write_output(output_path, res, subsequence)
+        if not os.path.exists("../tests/test1.in"):
+            create_tests()
+        run_tests()
 
 if __name__ == "__main__":
     main()
