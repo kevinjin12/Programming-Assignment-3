@@ -14,11 +14,17 @@ To run user-defined tests, select custom mode and create an input.in file in the
 Both modes assume that the file input is in the following format:
 
 K
-x1 v1
-x2 v2
+
+x_1 v_1
+
+x_2 v_2
+
 ...
-xK vK
+
+x_K v_K
+
 A
+
 B
 
 Where K is the number of characters in the alphabet. The next K lines contain character-value pairs for the scores of each character. A is the first string and B is the second string.
