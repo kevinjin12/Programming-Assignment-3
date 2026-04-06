@@ -1,5 +1,6 @@
 import random
 import os
+import time
 
 def hvlcs(A, B, values):
     m = len(A)
@@ -90,6 +91,25 @@ def run_tests():
             f.write(f"{max_val}\n")
             f.write(f"{subseq}\n")
 
+def measure_runtime():
+    results = []
+
+    for i in range(10):
+        input_file = f"../tests/test{i+1}.in"
+        A, B, values = read_input(input_file)
+
+        total = 0
+        for _ in range(10):
+            start = time.perf_counter()
+            hvlcs(A, B, values)
+            total += time.perf_counter() - start
+
+        avg = total / 10
+        results.append((len(A), avg))
+        print(f"test{i+1}.in: string size = {len(A)},  time = {avg*1000:.3f}ms")
+
+    return results
+
 
 def main():
     user_choice = input("Would you like to run custom or standard tests? [custom/standard] ")
@@ -109,6 +129,7 @@ def main():
         if not os.path.exists("../tests/test1.in"):
             create_tests()
         run_tests()
+        # measure_runtime()
 
 if __name__ == "__main__":
     main()
