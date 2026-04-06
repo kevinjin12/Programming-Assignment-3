@@ -30,3 +30,11 @@ B
 Where K is the number of characters in the alphabet. The next K lines contain character-value pairs for the scores of each character. A is the first string and B is the second string.
 
 The output gives the maximum value of a common subsequence along with the subsequence that generated that score.
+
+## Question 1
+
+The graph for the runtime of tests of varying input sizes is displayed below.
+
+![Runtime](data/runtime_graph.png)
+
+We can see from the graph that there is a clear quadratic trend, where an increase in input size by 25 causes the runtime to be much slower when the input size is already 200 as opposed to when it is only 25. Since in our test cases the lengths of A and B are the same, we will see that the runtime being quadratic O(n^2) aligns with our theoretical results.
