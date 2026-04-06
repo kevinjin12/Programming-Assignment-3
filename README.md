@@ -50,15 +50,6 @@ Then, in any other scenario, we have a few cases. If $a_i = b_j$, then we can ad
 Now, if $a_i \ne b_j$, then we cannot extend the common subsequence at this point. The final common subsequence will use at most one of these characters. If $a_i$ is not in the final common subsequence, then the max value common subsequence is between $a_1...a_{i-1}$ and $b_1...b_j$. If $b_j$ is not in the final common subsequence, then the max value is between $a_1...a_i$ and $b_1...b_{j-1}$. In total we have 2 cases and since we want the maximum value in the end, we take the max of these two options, giving us $max\{OPT(i, j - 1), OPT(i - 1, j)\}$.
 
 Thus, in total our recurrence relation is 
-$$
-OPT(i, j) =
-\begin{cases}
-0 & \text{if } i = 0 \\
-0 & \text{if } j = 0 \\
-OPT(i - 1, j - 1) + v(a_i) & \text{if } a_i = b_j \\
-\max \left\{
-    OPT(i, j - 1), \;
-    OPT(i - 1, j)
-\right\} & \text{otherwise}
-\end{cases}
-$$
+
+![Recurrence](data/recurrence_relation.png)
+
