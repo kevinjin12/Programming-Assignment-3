@@ -53,3 +53,24 @@ Thus, in total our recurrence relation is
 
 ![Recurrence](data/recurrence_relation.png)
 
+### Question 3
+
+**Algorithm: HVLCS(A, B, values)**
+
+- Let `m = len(A)` and `n = len(B)`
+- Initialize 2d array `M[0...m][0...n]` 
+- for `j = 0` to `n`:
+    - `M[0, j] = 0`
+- for `i = 1` to `m`:
+    - `M[i, 0] = 0`
+
+- for `i = 1` to `m`:
+    - for `j = 1` to `n`:
+        - if `a_i == b_j`:
+            - `M[i, j] = M[i - 1, j - 1] + values(a_i)`
+        - else:
+            - `M[i, j] = max{M[i - 1, j], M[i, j - 1]}`
+
+- Return `M[m, n]`
+
+To determine the runtime of the algorithm, we first note that our base cases are each O(n) and O(m) respectively (since we just loop through the first row/column and put 0's). Then, for the double for loop, we note that in each iteration we add a new entry to our data structure M that stores results from previous subproblems. After $mn$ iterations, the data structure is filled and we have our final result in $M[m, n]$. Hence, this nested for loop has running time $O(mn)$ where $m$ is the length of string A and $n$ is the length of string B. Thus overall, our running time is O(n) + O(m) + O(mn) = $O(mn)$.
