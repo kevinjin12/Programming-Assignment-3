@@ -38,3 +38,27 @@ The graph for the runtime of tests of varying input sizes is displayed below.
 ![Runtime](data/runtime_graph.png)
 
 We can see from the graph that there is a clear quadratic trend, where an increase in input size by 25 causes the runtime to be much slower when the input size is already 200 as opposed to when it is only 25. Since in our test cases the lengths of A and B are the same, we will see that the runtime being quadratic O(n^2) aligns with our theoretical results.
+
+### Question 2
+
+We start by stating an assumption we made: values of characters are nonnegative.
+
+Before we define the recurrence relation, denote $OPT(i, j) = \text{maximum value of common subsequence between } A = a_1a_2...a_i \text{ and } B = b_1b_2...b_j$. Let the length of A be m and the length of B be n. Using this defintion of OPT, we then first consider the base cases. If $i = 0$ or $j = 0$, then we are comparing a substring to an empty string. Since this can never have a common subsequence, we set these values to 0. In other words, $OPT(0, j) = 0$ $\forall j$ and $OPT(i, 0) = 0$ $\forall i$.
+
+Then, in any other scenario, we have a few cases. If $a_i = b_j$, then we can add the character to the common subsequence. Since we assumed values are nonnegative, we can always take the character and end up with a value greater than or equal to any previous value. So in this case we add the value of character $a_i$ (or $b_j$ since they are the same character) to the max value of the common subsequence between $a_1...a_{i-1}$ and $b_1...b_{j-1}$. Thus in this case we get a value of $OPT(i - 1, j - 1) + v(a_i)$. 
+
+Now, if $a_i \ne b_j$, then we cannot extend the common subsequence at this point. The final common subsequence will use at most one of these characters. If $a_i$ is not in the final common subsequence, then the max value common subsequence is between $a_1...a_{i-1}$ and $b_1...b_j$. If $b_j$ is not in the final common subsequence, then the max value is between $a_1...a_i$ and $b_1...b_{j-1}$. In total we have 2 cases and since we want the maximum value in the end, we take the max of these two options, giving us $max\{OPT(i, j - 1), OPT(i - 1, j)\}$.
+
+Thus, in total our recurrence relation is 
+$$
+OPT(i, j) =
+\begin{cases}
+0 & \text{if } i = 0 \\
+0 & \text{if } j = 0 \\
+OPT(i - 1, j - 1) + v(a_i) & \text{if } a_i = b_j \\
+\max \left\{
+    OPT(i, j - 1), \;
+    OPT(i - 1, j)
+\right\} & \text{otherwise}
+\end{cases}
+$$
